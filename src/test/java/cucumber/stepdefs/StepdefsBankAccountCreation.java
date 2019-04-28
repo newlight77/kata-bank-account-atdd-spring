@@ -21,8 +21,7 @@ public class StepdefsBankAccountCreation {
 
     @Given("^he has (\\-?\\d*\\.?\\d+) in his wallet$")
     public void he_has_in_his_wallet(double money) throws Exception {
-        throw new PendingException();
-
+        client.setWallet(money);
     }
 
     @Given("^he lives in (.*)")
