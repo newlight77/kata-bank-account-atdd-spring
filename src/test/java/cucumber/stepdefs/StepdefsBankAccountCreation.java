@@ -1,6 +1,7 @@
 package cucumber.stepdefs;
 
 import com.newlight77.kata.bank.model.Client;
+import com.newlight77.kata.bank.model.Country;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -12,7 +13,7 @@ public class StepdefsBankAccountCreation {
 
     @Given("^a client who's lastname is (.*) and firstname is (.*)$")
     public void a_client_who_s_lastname_is_and_firstname_is(String lastname, String firstname) throws Exception {
-        Client client = Client
+        client = Client
                 .builder()
                 .firstName(firstname)
                 .lastName(lastname)
@@ -26,8 +27,7 @@ public class StepdefsBankAccountCreation {
 
     @Given("^he lives in (.*)")
     public void he_lives_in(String country) throws Exception {
-        throw new PendingException();
-
+        client.setCountry(Country.valueOf(country));
      }
 
     @When("^he want to create a bank account with his money$")
