@@ -16,7 +16,8 @@ import org.junit.runner.RunWith;
             "features"
     },
     glue = {
-        "cucumber/stepdefs"
+        "cucumber/stepdefs",
+        "cucumber/config"
     },
     tags = {
         "@Account"

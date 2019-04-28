@@ -16,7 +16,8 @@ public class StepdefsBankAccountCreation {
 
     @LocalServerPort
     private int port;
-    private String baseUrl = "http://localhost:" + port;
+
+    private String baseUrl = "http://localhost:";
     private Client client;
 
     @Given("^a client who's lastname is (.*) and firstname is (.*)$")
@@ -40,7 +41,7 @@ public class StepdefsBankAccountCreation {
 
     @When("^he want to create a bank account with his money$")
     public void he_want_to_create_a_bank_account_with_his_money() throws Exception {
-        final String createEmployeeUrl = baseUrl + "/api/v1/employees";
+        final String createEmployeeUrl = baseUrl + port + "/api/v1/employees";
 
         final Response response = given().log()
                 .all()
