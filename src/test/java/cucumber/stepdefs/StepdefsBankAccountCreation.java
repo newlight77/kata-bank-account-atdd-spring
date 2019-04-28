@@ -6,9 +6,17 @@ import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import org.springframework.boot.web.server.LocalServerPort;
+
+import static io.restassured.RestAssured.given;
 
 public class StepdefsBankAccountCreation {
 
+    @LocalServerPort
+    private int port;
+    private String baseUrl = "http://localhost:" + port;
     private Client client;
 
     @Given("^a client who's lastname is (.*) and firstname is (.*)$")
@@ -32,7 +40,19 @@ public class StepdefsBankAccountCreation {
 
     @When("^he want to create a bank account with his money$")
     public void he_want_to_create_a_bank_account_with_his_money() throws Exception {
-        throw new PendingException();
+        final String createEmployeeUrl = baseUrl + "/api/v1/employees";
+
+        final Response response = given().log()
+                .all()
+                .when()
+                .contentType(ContentType.JSON)
+                .body(client)
+                .post(createEmployeeUrl)
+                .andReturn();
+
+        response.then()
+                .log()
+                .all();
 
     }
 
