@@ -16,10 +16,10 @@ import org.junit.runner.RunWith;
             "features"
     },
     glue = {
-        "cucumber/cucumber.stepdefs"
+        "cucumber/stepdefs"
     },
     tags = {
-        "@Account, @Deposit"
+        "@Account"
     }
 )
 public class RunCucumberTest {
