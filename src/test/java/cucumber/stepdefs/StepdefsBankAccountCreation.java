@@ -1,16 +1,22 @@
 package cucumber.stepdefs;
 
+import com.newlight77.kata.bank.model.Client;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import org.assertj.core.api.Assertions;
 
 public class StepdefsBankAccountCreation {
 
+    private Client client;
+
     @Given("^a client who's lastname is (.*) and firstname is (.*)$")
     public void a_client_who_s_lastname_is_and_firstname_is(String lastname, String firstname) throws Exception {
-        throw new PendingException();
+        Client client = Client
+                .builder()
+                .firstName(firstname)
+                .lastName(lastname)
+                .build();
     }
 
     @Given("^he has (\\-?\\d*\\.?\\d+) in his wallet$")

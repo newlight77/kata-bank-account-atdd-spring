@@ -1,4 +1,4 @@
-package com.newlight77.katabankaccountatddspring;
+package com.newlight77.kata.bank;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

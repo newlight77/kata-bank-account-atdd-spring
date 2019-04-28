@@ -1,4 +1,4 @@
-package com.newlight77.katabankaccountatddspring;
+package com.newlight77.kata.bank;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
