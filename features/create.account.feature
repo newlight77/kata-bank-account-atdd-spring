@@ -21,10 +21,10 @@ Feature: Bank account creation
     And he lives in <country>
     When he want to create a bank account with his money
     Then the account is not created
-    And an <error_message> is shown
+    And an <error_message> message is shown
 
     Examples:
     | lastname | firstname | money   | country     | error_message |
-    | To       | Kong      | 100.0   | PORTUGAL    | no allowed    |
-    | King     | Kong      | 100.0   | INDIA       | no allowed    |
-    | King     | Kong      | 100.0   | ITALY       | no allowed    |
+    | To       | Kong      | 100.0   | PORTUGAL    | not allowed    |
+    | King     | Kong      | 100.0   | INDIA       | not allowed    |
+    | King     | Kong      | 100.0   | ITALY       | not allowed    |
