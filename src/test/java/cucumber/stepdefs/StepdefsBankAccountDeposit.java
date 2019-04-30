@@ -51,7 +51,7 @@ public class StepdefsBankAccountDeposit {
                 .all()
                 .when()
                 .contentType(ContentType.JSON)
-                .param("accountId", context.givenObject(Account.class).getId())
+                .queryParam("accountId", context.givenObject(Account.class).getId())
                 .body(context.givenObject(Client.class).getWallet())
                 .post(url)
                 .andReturn();

@@ -20,7 +20,7 @@ import org.junit.runner.RunWith;
         "cucumber/config"
     },
     tags = {
-        "@Account, @Deposit"
+        "@Deposit"
     }
 )
 public class RunCucumberTest {
