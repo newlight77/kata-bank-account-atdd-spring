@@ -21,37 +21,38 @@ public class StepdefsBankAccountCreation {
     private int port;
 
     private String baseUrl = "http://localhost:";
-    private Client client;
-    private Response response;
+    private StepDefsContext context = StepDefsContext.CONTEXT;
 
     @Given("^a client who's lastname is (.*) and firstname is (.*)$")
     public void a_client_who_s_lastname_is_and_firstname_is(String lastname, String firstname) throws Exception {
-        client = Client
+        Client client = Client
                 .builder()
                 .firstName(firstname)
                 .lastName(lastname)
                 .build();
+
+        context.givenObject(client);
     }
 
     @Given("^he has (\\-?\\d*\\.?\\d+) in his wallet$")
     public void he_has_in_his_wallet(double money) throws Exception {
-        client.setWallet(money);
+        context.givenObject(Client.class).setWallet(money);
     }
 
     @Given("^he lives in (.*)")
     public void he_lives_in(String country) throws Exception {
-        client.setCountry(Country.valueOf(country));
+        context.givenObject(Client.class).setCountry(Country.valueOf(country));
      }
 
     @When("^he want to create a bank account with his money$")
     public void he_want_to_create_a_bank_account_with_his_money() throws Exception {
         final String url = baseUrl + port + "/api/v1/accounts";
 
-        response = given().log()
+        Response response = given().log()
                 .all()
                 .when()
                 .contentType(ContentType.JSON)
-                .body(client)
+                .body(context.givenObject(Client.class))
                 .post(url)
                 .andReturn();
 
@@ -59,23 +60,24 @@ public class StepdefsBankAccountCreation {
                 .log()
                 .all();
 
+        context.response(response);
     }
 
     @Then("^the account is created under his name with an initial balance of (\\-?\\d*\\.?\\d+)$")
     public void the_account_is_created_under_his_name_with_an_initial_balance_of(double initialBalance) throws Exception {
+        Response response = context.response();
         assertThat(response.getStatusCode()).isBetween(200, 201);
         assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody().as(Account.class).getClient()).isEqualTo(client);
+        assertThat(response.getBody().as(Account.class).getClient()).isEqualTo(context.givenObject(Client.class));
     }
 
     @Then("^the account is not created$")
     public void the_account_is_not_created() throws Exception {
-        assertThat(response.getStatusCode()).isBetween(400, 404);
+        assertThat(context.response().getStatusCode()).isBetween(400, 404);
     }
 
     @Then("^an error message (.*) is shown$")
     public void an_error_message_is_shown(String message) throws Exception {
-        response.getBody().print();
-        assertThat(response.getBody().jsonPath().get("message").toString()).contains(message);
+        assertThat(context.response().getBody().jsonPath().get("message").toString()).contains(message);
     }
 }

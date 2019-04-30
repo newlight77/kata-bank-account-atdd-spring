@@ -24,53 +24,55 @@ public class StepdefsBankAccountDeposit {
     private int port;
 
     private String baseUrl = "http://localhost:";
-    private Client client;
-    private Account account;
-    private Response response;
+    private StepDefsContext context = StepDefsContext.CONTEXT;
 
     @Given("^a client having an account$")
     public void a_client_having_an_account() throws Exception {
-        client = Client
+        Client client = Client
                 .builder()
                 .country(Country.FRANCE)
                 .build();
 
-        account = accountService.create(client);
+        context.givenObject(client);
+        Account account = accountService.create(client);
+        context.givenObject(account);
     }
 
     @Given("^the balance in that account is (\\d*\\.?\\d+)$")
     public void the_balance_in_that_account_is(double balance) throws Exception {
-        account.setBalance(balance);
+        context.givenObject(Account.class).setBalance(balance);
     }
 
     @When("^he want to deposit his pocket money in his account$")
     public void he_want_to_deposit_his_pocket_money_in_his_account() throws Exception {
         final String url = baseUrl + port + "/api/v1/operations";
 
-        response = given().log()
+        Response response = given().log()
                 .all()
                 .when()
                 .contentType(ContentType.JSON)
-                .param("accountId", account.getId())
-                .body(client.getWallet())
+                .param("accountId", context.givenObject(Account.class).getId())
+                .body(context.givenObject(Client.class).getWallet())
                 .post(url)
                 .andReturn();
 
         response.then()
                 .log()
                 .all();
+
+        context.response(response);
     }
 
     @Then("^the new balance is updated with (\\d*\\.?\\d+)$")
     public void the_new_balance_is_updated_with(double newBalance) throws Exception {
-        assertThat(response.getStatusCode()).isBetween(200, 201);
-        assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody().as(Double.class)).isEqualTo(newBalance);
+        assertThat(context.response().getStatusCode()).isBetween(200, 201);
+        assertThat(context.response().getBody()).isNotNull();
+        assertThat(context.response().getBody().as(Double.class)).isEqualTo(newBalance);
     }
 
     @Then("^the deposit is not allowed$")
     public void the_deposit_is_not_allowed() throws Exception {
-        assertThat(response.getStatusCode()).isBetween(400, 404);
+        assertThat(context.response().getStatusCode()).isBetween(400, 404);
     }
 
 }

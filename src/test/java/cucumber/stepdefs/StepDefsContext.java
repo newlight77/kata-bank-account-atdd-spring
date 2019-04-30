@@ -17,44 +17,44 @@ public enum StepDefsContext {
 
     private AccountService accountService = new AccountService();
 
-    public <T> void setGivenObject(T object) {
+    public <T> T givenObject(Class<T> clazz) {
+        return clazz.cast(givenObjects.get()
+                .get(clazz.getName()));
+    }
+
+    public <T> void givenObject(T object) {
         givenObjects.get()
                 .put(object.getClass().getName(), object);
     }
 
-    public <T> T getResult(Class<T> clazz) {
+    public <T> T result(Class<T> clazz) {
         return clazz.cast(thenObjects.get()
                 .get(clazz.getName()));
     }
 
-    public <T> void setResult(T object) {
+    public <T> void result(T object) {
         thenObjects.get()
                 .put(object.getClass().getName(), object);
     }
 
-    public Throwable getThrowable() {
+    public Throwable throwable() {
         return Throwable.class.cast(thenObjects.get()
                 .get(Throwable.class.getName()));
     }
 
-    public void setThrowable(Throwable throwable) {
+    public void throwable(Throwable throwable) {
         thenObjects.get()
                 .put(Throwable.class.getName(), throwable);
     }
 
-    public Response getResponse() {
+    public Response response() {
         return Response.class.cast(thenObjects.get()
                 .get(Response.class.getName()));
     }
 
-    public void setResponse(Response throwable) {
+    public void response(Response throwable) {
         thenObjects.get()
                 .put(Response.class.getName(), throwable);
-    }
-
-    public <T> T getGivenObject(Class<T> clazz) {
-        return clazz.cast(givenObjects.get()
-                .get(clazz.getName()));
     }
 
     public void reset() {
