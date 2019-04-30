@@ -11,7 +11,7 @@ Feature: Deposit in Bank Account
 
     Examples:
     | init_balance | money   | balance |
-    | 100          | 50      | 150.0   |
+    | 100.0          | 50.0      | 150.0   |
 
   @Deposit
   Scenario Outline: Deposit money with negative amount
@@ -20,8 +20,8 @@ Feature: Deposit in Bank Account
     And he has <money> in his wallet
     When he want to deposit his pocket money in his account
     Then the deposit is not allowed
-    And An error <error_message> message is shown
+    And an error message <error_message> is shown
 
     Examples:
       | init_balance | money   | balance |  error_message         |
-      | 100          | -150    | 150.0   |  not allowed |
+      | 100.0          | -150.0    | 150.0   |  not allowed |

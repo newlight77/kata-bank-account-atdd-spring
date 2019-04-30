@@ -21,7 +21,7 @@ Feature: Bank account creation
     And he lives in <country>
     When he want to create a bank account with his money
     Then the account is not created
-    And an <error_message> message is shown
+    And an error message <error_message> is shown
 
     Examples:
     | lastname | firstname | money   | country     | error_message |

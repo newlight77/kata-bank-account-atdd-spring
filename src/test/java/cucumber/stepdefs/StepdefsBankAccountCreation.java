@@ -73,8 +73,8 @@ public class StepdefsBankAccountCreation {
         assertThat(response.getStatusCode()).isBetween(400, 404);
     }
 
-    @Then("^an (.*) message is shown$")
-    public void an_no_allowed_is_shown(String message) throws Exception {
+    @Then("^an error message (.*) is shown$")
+    public void an_error_message_is_shown(String message) throws Exception {
         response.getBody().print();
         assertThat(response.getBody().jsonPath().get("message").toString()).contains(message);
     }
