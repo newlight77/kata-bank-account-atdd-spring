@@ -9,7 +9,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Account {
-    @Generated
     private UUID id;
     private Client client;
     private double balance;

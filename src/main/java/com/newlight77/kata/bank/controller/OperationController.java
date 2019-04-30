@@ -16,6 +16,6 @@ public class OperationController {
     @PostMapping("")
     @ResponseStatus(HttpStatus.OK)
     public Double deposit(@RequestParam String accountId, @RequestBody Double money) {
-        return operationService.deposit(money);
+        return operationService.deposit(accountId, money);
     }
 }
