@@ -56,6 +56,7 @@ public class StepdefsBankAccountCreation {
                 .post(url)
                 .andReturn();
 
+        // assert response not null;
         response.then()
                 .log()
                 .all();
@@ -69,11 +70,14 @@ public class StepdefsBankAccountCreation {
         assertThat(response.getStatusCode()).isBetween(200, 201);
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().as(Account.class).getClient()).isEqualTo(context.givenObject(Client.class));
+        assertThat(response.getBody().as(Account.class).getBalance()).isEqualTo(100);
     }
 
     @Then("^the account is not created$")
     public void the_account_is_not_created() throws Exception {
+        Response response = context.response();
         assertThat(context.response().getStatusCode()).isBetween(400, 404);
+        assertThat(response.getBody().as(Account.class)).isEqualTo(context.givenObject(Account.class));
     }
 
     @Then("^an error message (.*) is shown$")
