@@ -72,6 +72,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>de.monochromata.cucumber</groupId>
+			<artifactId>reporting-plugin</artifactId>
+			<version>3.0.9</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -126,7 +132,24 @@
 					<compilerArgument>-Werror</compilerArgument>
 				</configuration>
 			</plugin>
-			
+			<plugin>
+				<groupId>com.trivago.rta</groupId>
+				<artifactId>cluecumber-report-plugin</artifactId>
+				<version>2.3.1</version>
+				<executions>
+					<execution>
+						<id>report</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>reporting</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<sourceJsonReportDirectory>${project.build.directory}/cucumber</sourceJsonReportDirectory>
+					<generatedHtmlReportDirectory>${project.build.directory}/cucumber/cluecumber</generatedHtmlReportDirectory>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 

@@ -8,9 +8,8 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
     plugin = {
             "pretty",
-            "html:target/cucumber",
             "json:target/cucumber/Cucumber.json",
-            "junit:target/cucumber/Cucumber.xml",
+            "de.monochromata.cucumber.report.PrettyReports:target/cucumber"
     },
     features = {
             "features"
