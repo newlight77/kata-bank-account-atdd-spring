@@ -17,9 +17,6 @@ import org.junit.runner.RunWith;
     glue = {
         "cucumber/stepdefs",
         "cucumber/config"
-    },
-    tags = {
-        "@Deposit"
     }
 )
 public class RunCucumberTest {
