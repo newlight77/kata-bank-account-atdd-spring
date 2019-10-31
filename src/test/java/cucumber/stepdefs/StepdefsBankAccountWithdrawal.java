@@ -28,7 +28,7 @@ public class StepdefsBankAccountWithdrawal {
     private String baseUrl = "http://localhost:";
     private StepDefsContext context = StepDefsContext.CONTEXT;
 
-    @Given("^a client having a valid account$")
+    @Given("a client having a valid account")
     public void aClientHavingAValidAccount() {
         Client client = Client
                 .builder()
@@ -40,12 +40,12 @@ public class StepdefsBankAccountWithdrawal {
         context.givenObject(account);
     }
 
-    @Given("^the account balance is (\\-?\\d*\\.?\\d+) euros$")
+    @Given("the account balance is (\\-?\\d*\\.?\\d+) euros")
     public void the_account_balance_is_euros(double initialBalance) throws Exception {
         context.givenObject(Account.class).setBalance(initialBalance);
     }
 
-    @Given("^the card is valid$")
+    @Given("the card is valid")
     public void the_card_is_valid() throws Exception {
         Card card = Card.builder()
                 .number(123456789L)
@@ -57,7 +57,7 @@ public class StepdefsBankAccountWithdrawal {
         context.givenObject(card);
     }
 
-    @Given("^the ATM contains enough money$")
+    @Given("the ATM contains enough money")
     public void the_ATM_contains_enough_money() throws Exception {
         Atm atm = Atm.builder()
                 .id(UUID.randomUUID())
@@ -67,7 +67,7 @@ public class StepdefsBankAccountWithdrawal {
         context.givenObject(atm);
     }
 
-    @When("^the account holder requests (\\-?\\d*\\.?\\d+) euros$")
+    @When("the account holder requests {double} euros")
     public void the_account_holder_requests_euros(double amount) throws Exception {
         final String url = baseUrl + port + "/api/v1/operations/withdrawal";
 
@@ -96,20 +96,20 @@ public class StepdefsBankAccountWithdrawal {
         context.response(response);
     }
 
-    @Then("^the ATM should dispense (\\-?\\d*\\.?\\d+) euros$")
+    @Then("the ATM should dispense {double} euros")
     public void the_ATM_should_dispense_euros(double amount) throws Exception {
         double atmBalance = context.response().getBody().as(Transaction.class).getAtm().getBalance();
         assertThat(atmBalance).isEqualTo(1000L - amount);
     }
 
-    @Then("^the account balance should be (\\-?\\d*\\.?\\d+) euros$")
+    @Then("the account balance should be {double} euros")
     public void the_account_balance_should_be_euros(double newBalance) throws Exception {
         assertThat(context.response().getStatusCode()).isBetween(200, 201);
         assertThat(context.response().getBody()).isNotNull();
         assertThat(context.response().getBody().as(Transaction.class).getAccount().getBalance()).isEqualTo(newBalance);
     }
 
-    @Then("^the card should be returned$")
+    @Then("the card should be returned")
     public void the_card_should_be_returned() throws Exception {
         assertThat(context.response().getBody().as(Transaction.class).getAtm().isCardHold()).isFalse();
     }

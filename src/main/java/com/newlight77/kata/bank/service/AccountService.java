@@ -20,7 +20,7 @@ public class AccountService {
             Account account =  Account.builder()
                     .id(UUID.randomUUID())
                     .client(client)
-                    .balance(0)
+                    .balance(client.getWallet())
                     .build();
             accounts.put(account.getId().toString(), account);
             return account;

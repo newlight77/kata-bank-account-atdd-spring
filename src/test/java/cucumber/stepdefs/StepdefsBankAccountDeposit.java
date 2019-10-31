@@ -26,7 +26,7 @@ public class StepdefsBankAccountDeposit {
     private String baseUrl = "http://localhost:";
     private StepDefsContext context = StepDefsContext.CONTEXT;
 
-    @Given("^a client having an account$")
+    @Given("a client having an account")
     public void a_client_having_an_account() throws Exception {
         Client client = Client
                 .builder()
@@ -38,12 +38,12 @@ public class StepdefsBankAccountDeposit {
         context.givenObject(account);
     }
 
-    @Given("^the balance in that account is (\\d*\\.?\\d+)$")
+    @Given("the balance in that account is {double}")
     public void the_balance_in_that_account_is(double balance) throws Exception {
         context.givenObject(Account.class).setBalance(balance);
     }
 
-    @When("^he want to deposit his pocket money in his account$")
+    @When("he want to deposit his pocket money in his account")
     public void he_want_to_deposit_his_pocket_money_in_his_account() throws Exception {
         final String url = baseUrl + port + "/api/v1/operations";
 
@@ -63,14 +63,14 @@ public class StepdefsBankAccountDeposit {
         context.response(response);
     }
 
-    @Then("^the new balance is updated with (\\d*\\.?\\d+)$")
+    @Then("the new balance is updated with {double}")
     public void the_new_balance_is_updated_with(double newBalance) throws Exception {
         assertThat(context.response().getStatusCode()).isBetween(200, 201);
         assertThat(context.response().getBody()).isNotNull();
         assertThat(context.response().getBody().as(Double.class)).isEqualTo(newBalance);
     }
 
-    @Then("^the deposit is not allowed$")
+    @Then("the deposit is not allowed")
     public void the_deposit_is_not_allowed() throws Exception {
         assertThat(context.response().getStatusCode()).isBetween(400, 404);
     }
