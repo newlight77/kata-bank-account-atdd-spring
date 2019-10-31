@@ -1,7 +1,7 @@
 Feature: Withdrawal from an ATM
   A client wants to withdrawal money at an ATM
 
-  @Deposit
+  @Withdraw
   Scenario Outline: Withdrawal money from an ATM that contains enough money
     Given a client having a valid account
     And the account balance is <init_balance> euros
