@@ -13,5 +13,5 @@ Feature: Withdrawal from an ATM
     And the card should be returned
 
     Examples:
-    | init_balance | money   | new_balance |
-    | 100.0        | 20.0    | 80.0        |
+      | init_balance | money   | new_balance |
+      | 100.0        | 20.0    | 80.0        |

@@ -1,0 +1,106 @@
+
+plugins {
+    id 'org.springframework.boot' version '2.2.0.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'java'
+    id 'jacoco'
+}
+
+group 'com.newlight77'
+version '1.0.0-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.10.0'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine' // required for junit4
+    testImplementation 'org.mockito:mockito-junit-jupiter'
+
+    testCompile("org.assertj:assertj-core:3.11.1")
+    testCompile 'com.sun.xml.bind:jaxb-osgi:2.3.2'
+    testCompile("io.rest-assured:rest-assured:3.1.1") {
+        exclude module: "com.sun.xml.bind:jaxb-osgi"
+    }
+
+    testCompile 'io.cucumber:cucumber-java:4.8.0'
+    testCompile 'io.cucumber:cucumber-junit:4.8.0'
+    testCompile 'io.cucumber:cucumber-spring:4.8.0'
+    testCompile 'de.monochromata.cucumber:reporting-plugin:3.0.9'
+}
+
+test {
+    useJUnitPlatform()
+    jacoco {
+        enabled = true
+        destinationFile = file("${buildDir}/jacoco/${name}.exec")
+//        classDumpDir = file("${buildDir}/jacoco/classpathdumps")
+        classDumpDir = null
+        includes = ['com.newlight77.kata.bank.*']
+        excludes = ['com.newlight77.kata.bank.model.*', 'com.newlight77.kata.bank.exception.*']
+        address = "localhost"
+        port = 9000
+    }
+}
+
+test.finalizedBy jacocoTestReport
+test.finalizedBy jacocoTestCoverageVerification
+
+jacocoTestReport {
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports"
+    sourceDirectories = files('src/main/java')
+//    executionData = files('${buildDir}/jacoco/${name}.exec')
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/jacoco/Html")
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['com.newlight77.kata.bank.model.*', 'com.newlight77.kata.bank.exception.*'])
+        }))
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            enabled = false
+            element = 'CLASS'
+            includes = ['com.newlight77.*']
+            excludes = ['com.newlight77.kata.bank.model.*',
+                        'com.newlight77.kata.bank.exception.*']
+
+            limit {
+                counter = 'LINE'
+                value = 'TOTALCOUNT'
+//                value = 'COVEREDRATIO'
+//                minimum = 0.8
+                maximum = 0.3
+            }
+        }
+    }
+}
+
