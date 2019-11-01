@@ -1,0 +1,48 @@
+apply plugin: 'jacoco'
+
+jacocoTestReport {
+    def coverageSourceDirs = ["src/main/java"]
+
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports"
+//    sourceDirectories = files(coverageSourceDirs)
+//    additionalSourceDirs = files(coverageSourceDirs)
+//    executionData = files('${buildDir}/jacoco/${name}.exec')
+//    executionData = fileTree(dir: project.projectDir, includes: ["**/*.exec", "**/*-it.exec"])
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/jacoco/Html")
+    }
+
+    classDirectories = fileTree(
+        dir: "${project.buildDir}/classes/java/main",
+        excludes: ['**/model/*.class', '**/exception/*.class']
+    )
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: ['com.newlight77.kata.bank.model.*', 'com.newlight77.kata.bank.exception.*'])
+        }))
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            enabled = false
+            element = 'CLASS'
+            includes = ['com.newlight77.*']
+            excludes = ['com.newlight77.kata.bank.model.*',
+                        'com.newlight77.kata.bank.exception.*']
+
+            limit {
+                counter = 'LINE'
+                value = 'TOTALCOUNT'
+//                value = 'COVEREDRATIO'
+//                minimum = 0.8
+                maximum = 0.3
+            }
+        }
+    }
+}
