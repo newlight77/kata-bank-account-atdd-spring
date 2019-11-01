@@ -1,14 +1,23 @@
 apply plugin: 'jacoco'
 
 jacocoTestReport {
-    def coverageSourceDirs = ["src/main/java"]
 
     group = "Reporting"
     description = "Generate Jacoco coverage reports"
+
+//    def coverageSourceDirs = ["src/main/java"]
 //    sourceDirectories = files(coverageSourceDirs)
 //    additionalSourceDirs = files(coverageSourceDirs)
+
+//    dependsOn = subprojects.test
+//    additionalSourceDirs = files(subprojects.sourceSets.main.allSource.srcDirs)
+//    sourceDirectories = files(subprojects.sourceSets.main.allSource.srcDirs)
+//    classDirectories =  files(subprojects.sourceSets.main.output)
+//    executionData = files(subprojects.jacocoTestReport.executionData)
+
 //    executionData = files('${buildDir}/jacoco/${name}.exec')
 //    executionData = fileTree(dir: project.projectDir, includes: ["**/*.exec", "**/*-it.exec"])
+
     reports {
         xml.enabled false
         csv.enabled false
@@ -24,6 +33,31 @@ jacocoTestReport {
         classDirectories.setFrom(files(classDirectories.files.collect {
             fileTree(dir: it, exclude: ['com.newlight77.kata.bank.model.*', 'com.newlight77.kata.bank.exception.*'])
         }))
+    }
+
+    // Work-around to allow us to build list of executionData files in doFirst
+    onlyIf = {
+        true
+    }
+
+    /*
+     * Builds list of source dirs, class dirs, and executionData files
+     * when task is run, not at script evaluation time
+     */
+    doFirst {
+        subprojects.findAll { subproject ->
+            subproject.pluginManager.hasPlugin('java')
+        }.each { subproject ->
+            additionalSourceDirs files(subproject.sourceSets.main.allJava.srcDirs)
+            additionalClassDirs (subproject.sourceSets.main.output)
+            if (subproject.pluginManager.hasPlugin('jacoco')) {
+                executionData subproject.tasks.jacocoTestReport.executionData
+            }
+        }
+
+        executionData = files(executionData.findAll {
+            it.exists()
+        })
     }
 }
 

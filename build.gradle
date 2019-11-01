@@ -4,9 +4,11 @@ plugins {
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
     id 'jacoco'
+    id "org.sonarqube" version "2.8"
 }
 
 apply from: './jacoco-config.gradle'
+apply from: './sonarqube-conf.gradle'
 
 group 'com.newlight77'
 version '1.0.0-SNAPSHOT'
@@ -57,3 +59,11 @@ test {
 
 test.finalizedBy jacocoTestReport
 test.finalizedBy jacocoTestCoverageVerification
+
+//test.finalizedBy cucumberReports
+
+//cucumberReports {
+//    outputDir = file('${buildDir}/cucumber/html')
+//    buildId = '0'
+//    reports = files('${buildDir}/cucumber/cucumber.json')
+//}
