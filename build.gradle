@@ -37,9 +37,9 @@ dependencies {
 
     compile 'com.fasterxml.jackson.core:jackson-databind:2.10.0'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine' // required for junit4
-    testImplementation 'org.mockito:mockito-junit-jupiter'
+//    testImplementation 'org.junit.jupiter:junit-jupiter'
+//    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine' // required for junit4
+//    testImplementation 'org.mockito:mockito-junit-jupiter'
 
     testCompile("org.assertj:assertj-core:3.11.1")
     testCompile 'com.sun.xml.bind:jaxb-osgi:2.3.2'
@@ -54,16 +54,9 @@ dependencies {
 }
 
 test {
-    useJUnitPlatform()
+    useJUnit()
+//    useJUnitPlatform()
 }
 
 test.finalizedBy jacocoTestReport
 test.finalizedBy jacocoTestCoverageVerification
-
-//test.finalizedBy cucumberReports
-
-//cucumberReports {
-//    outputDir = file('${buildDir}/cucumber/html')
-//    buildId = '0'
-//    reports = files('${buildDir}/cucumber/cucumber.json')
-//}
