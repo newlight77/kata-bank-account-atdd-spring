@@ -75,11 +75,6 @@
 			<artifactId>reporting-plugin</artifactId>
 			<version>3.0.9</version>
 		</dependency>
-		<dependency>
-			<groupId>net.masterthought</groupId>
-			<artifactId>cucumber-reporting</artifactId>
-			<version>4.11.2</version>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -183,34 +178,6 @@
 							<goal>integration-test</goal>
 							<goal>verify</goal>
 						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>net.masterthought</groupId>
-				<artifactId>maven-cucumber-reporting</artifactId>
-				<version>4.11.2</version>
-				<executions>
-					<execution>
-						<id>execution</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<projectName>kata-bank-account-atdd-spring</projectName>
-							<!-- optional, per documentation set this to "true" to bypass generation of Cucumber Reports entirely, defaults to false if not specified -->
-							<skip>false</skip>
-							<outputDirectory>${project.build.directory}/cucumber</outputDirectory>
-							<!-- optional, defaults to outputDirectory if not specified -->
-							<inputDirectory>${project.build.directory}/cucumber</inputDirectory>
-							<jsonFiles>
-								<param>**/cucumber.json</param>
-							</jsonFiles>
-							<parallelTesting>false</parallelTesting>
-							<!-- optional, set true to fail build on test failures -->
-							<checkBuildResult>false</checkBuildResult>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
