@@ -10,8 +10,6 @@ import org.junit.runner.RunWith;
             "pretty",
             "json:target/cucumber/cucumber.json",
             "json:build/cucumber/cucumber.json",
-            "de.monochromata.cucumber.report.PrettyReports:build/cucumber/monochromata",
-            "de.monochromata.cucumber.report.PrettyReports:target/cucumber/monochromata"
     },
     features = {
             "features"

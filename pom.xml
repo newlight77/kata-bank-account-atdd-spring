@@ -71,11 +71,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>de.monochromata.cucumber</groupId>
-			<artifactId>reporting-plugin</artifactId>
-			<version>3.0.9</version>
-		</dependency>
-		<dependency>
 			<groupId>net.masterthought</groupId>
 			<artifactId>cucumber-reporting</artifactId>
 			<version>4.11.2</version>
