@@ -5,6 +5,7 @@ plugins {
     id 'java'
     id 'jacoco'
     id "org.sonarqube" version "2.8"
+    id "com.github.spacialcircumstances.gradle-cucumber-reporting" version "0.1.14"
 }
 
 apply from: './jacoco-config.gradle'
@@ -60,3 +61,9 @@ test {
 
 test.finalizedBy jacocoTestReport
 test.finalizedBy jacocoTestCoverageVerification
+
+cucumberReports {
+    outputDir = file("${buildDir}/cucumber")
+    buildId = '0'
+    reports = files("${buildDir}/cucumber/cucumber.json")
+}
